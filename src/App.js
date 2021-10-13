@@ -4,7 +4,7 @@ import contacts from './contacts.json';
 
 const producerContacts = contacts;
 
-class DisplayContacts extends React.Component {
+class App extends React.Component {
   constructor() {
     super();
     this.state = { contacts: producerContacts.slice(0, 5) };
@@ -12,21 +12,40 @@ class DisplayContacts extends React.Component {
 
   render() {
     return (
-      <ul>
-        {this.state.contacts.map((contact) => {
-          return <li key={contact.id}>{contact.name}</li>;
-        })}
-      </ul>
+      <main>
+        <table>
+          <thead>
+            <tr>
+              <th colspan="3">Ironcontacts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Picture</th>
+              <th>Name</th>
+              <th>Popularity</th>
+            </tr>
+
+            {this.state.contacts.map((contact) => {
+              return (
+                <tr key={contact.id}>
+                  <th>
+                    <img
+                      src={contact.pictureUrl}
+                      alt={contact.name}
+                      width="80"
+                    />
+                  </th>
+                  <th>{contact.name}</th>
+                  <th>{contact.popularity}</th>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </main>
     );
   }
-}
-
-function App() {
-  return (
-    <div className="App">
-      <DisplayContacts />
-    </div>
-  );
 }
 
 export default App;
