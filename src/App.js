@@ -54,11 +54,19 @@ class App extends React.Component {
       return 0;
     }
     const sortedByPopularity = this.state.contacts.sort(compare);
-
-    console.log(sortedByPopularity);
     this.setState((currentState) => {
       return {
         contacts: sortedByPopularity
+      };
+    });
+  };
+
+  removeContact = (id) => {
+    console.log('Remove contact');
+    console.log(id);
+    this.setState((currentState) => {
+      return {
+        contacts: currentState.contacts.filter((contact) => contact.id !== id)
       };
     });
   };
@@ -67,24 +75,20 @@ class App extends React.Component {
     return (
       <main>
         <h1> Ironcontacts </h1>
-        <form onSubmit={this.addRandomContact}>
-          <button>Add random contact</button>
-        </form>
+        <div class="buttonHolder">
+          <form onSubmit={this.addRandomContact}>
+            <button>Add random contact</button>
+          </form>
 
-        <form onSubmit={this.sortByName}>
-          <button>Sort by name</button>
-        </form>
+          <form onSubmit={this.sortByName}>
+            <button>Sort by name</button>
+          </form>
 
-        <form onSubmit={this.sortByPopularity}>
-          <button>Sort by popularity</button>
-        </form>
-
+          <form onSubmit={this.sortByPopularity}>
+            <button>Sort by popularity</button>
+          </form>
+        </div>
         <table>
-          <thead>
-            <tr>
-              <th colSpan="3">Ironcontacts</th>
-            </tr>
-          </thead>
           <tbody>
             <tr>
               <th>Picture</th>
@@ -104,6 +108,11 @@ class App extends React.Component {
                   </th>
                   <th>{contact.name}</th>
                   <th>{contact.popularity}</th>
+                  <th>
+                    <button onClick={() => this.removeContact(contact.id)}>
+                      X
+                    </button>
+                  </th>
                 </tr>
               );
             })}
