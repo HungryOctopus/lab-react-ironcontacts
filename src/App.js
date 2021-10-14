@@ -14,7 +14,6 @@ class App extends React.Component {
     event.preventDefault();
     const newContact =
       producerContacts[Math.floor(Math.random() * producerContacts.length)];
-    console.log(newContact);
     this.setState((currentState) => {
       return {
         contacts: [...currentState.contacts, newContact]
@@ -22,9 +21,64 @@ class App extends React.Component {
     });
   };
 
+  sortByName = (event) => {
+    event.preventDefault();
+    function compare(a, b) {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    }
+    const sortedByName = this.state.contacts.sort(compare);
+
+    console.log(sortedByName);
+    this.setState((currentState) => {
+      return {
+        contacts: sortedByName
+      };
+    });
+  };
+
+  sortByPopularity = (event) => {
+    event.preventDefault();
+    function compare(a, b) {
+      if (a.popularity < b.popularity) {
+        return 1;
+      }
+      if (a.popularity > b.popularity) {
+        return -1;
+      }
+      return 0;
+    }
+    const sortedByPopularity = this.state.contacts.sort(compare);
+
+    console.log(sortedByPopularity);
+    this.setState((currentState) => {
+      return {
+        contacts: sortedByPopularity
+      };
+    });
+  };
+
   render() {
     return (
       <main>
+        <h1> Ironcontacts </h1>
+        <form onSubmit={this.addRandomContact}>
+          <button>Add random contact</button>
+        </form>
+
+        <form onSubmit={this.sortByName}>
+          <button>Sort by name</button>
+        </form>
+
+        <form onSubmit={this.sortByPopularity}>
+          <button>Sort by popularity</button>
+        </form>
+
         <table>
           <thead>
             <tr>
@@ -55,9 +109,6 @@ class App extends React.Component {
             })}
           </tbody>
         </table>
-        <form onSubmit={this.addRandomContact}>
-          <button>Add random contact</button>
-        </form>
       </main>
     );
   }
