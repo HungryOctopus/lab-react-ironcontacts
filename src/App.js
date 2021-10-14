@@ -12,13 +12,18 @@ class App extends React.Component {
 
   addRandomContact = (event) => {
     event.preventDefault();
-    const newContact =
-      producerContacts[Math.floor(Math.random() * producerContacts.length)];
-    this.setState((currentState) => {
-      return {
-        contacts: [...currentState.contacts, newContact]
-      };
+    const leftoverContacts = producerContacts.filter((contact) => {
+      return !this.state.contacts.includes(contact);
     });
+    if (leftoverContacts.length !== 0) {
+      const newContact =
+        leftoverContacts[Math.floor(Math.random() * leftoverContacts.length)];
+      this.setState((currentState) => {
+        return {
+          contacts: [...currentState.contacts, newContact]
+        };
+      });
+    }
   };
 
   sortByName = (event) => {
@@ -75,7 +80,7 @@ class App extends React.Component {
     return (
       <main>
         <h1> Ironcontacts </h1>
-        <div class="buttonHolder">
+        <div className="buttonHolder">
           <form onSubmit={this.addRandomContact}>
             <button>Add random contact</button>
           </form>
